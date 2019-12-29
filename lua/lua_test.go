@@ -339,8 +339,11 @@ func TestStackTrace(t *testing.T) {
 
     err := L.DoFile("./example/calls.lua")
     if err == nil {
-        dir, _ := os.Getwd()
-        t.Logf("current working dir:%s ", dir)
+        if dir, err := os.Getwd(); err  == nil {
+            t.Logf("current working dir:%s ", dir)
+        } else {
+            t.Log(err)
+        }
         t.Fatal("No error returned from the execution of calls.lua")
         return
     }
