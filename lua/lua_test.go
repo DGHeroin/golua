@@ -1,6 +1,7 @@
 package lua
 
 import (
+    "os"
     "testing"
     "unsafe"
 )
@@ -338,6 +339,8 @@ func TestStackTrace(t *testing.T) {
 
     err := L.DoFile("./example/calls.lua")
     if err == nil {
+        dir, _ := os.Getwd()
+        t.Logf("current working dir:%s ", dir)
         t.Fatal("No error returned from the execution of calls.lua")
         return
     }
