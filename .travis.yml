@@ -1,5 +1,10 @@
 language: go
-dist: trusty
+branches:
+  only:
+    - master
+os:
+  - osx
+  - linux
 before_install:
 #  - sudo add-apt-repository ppa:vbernat/haproxy-1.6 -y
   - sudo apt-get -qq update
