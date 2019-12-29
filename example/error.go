@@ -1,7 +1,9 @@
 package main
 
-import "../lua"
-import "fmt"
+import (
+	"fmt"
+	"github.com/DGHeroin/golua/lua"
+)
 import "errors"
 import "os"
 

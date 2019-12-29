@@ -1,7 +1,9 @@
 package main
 
-import "../lua"
-import "fmt"
+import (
+	"fmt"
+	"github.com/DGHeroin/golua/lua"
+)
 
 func test(L *lua.State) int {
 	fmt.Println("hello world! from go!")
@@ -23,7 +25,8 @@ func main() {
 	defer L.Close()
 	L.OpenLibs()
 
-	L.GetField(lua.LUA_GLOBALSINDEX, "print")
+	//L.GetField(lua.LUA_GLOBALSINDEX, "print")
+	L.GetGlobal("print")
 	L.PushString("Hello World!")
 	L.Call(1,0)
 

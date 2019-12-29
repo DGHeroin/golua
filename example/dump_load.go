@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	"../lua"
+	"github.com/DGHeroin/golua/lua"
 )
 
 // dumpAndLoadTest: dump a function chunk to bytecodes, then load bytecodes and call function

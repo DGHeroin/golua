@@ -1,7 +1,9 @@
 package main
 
-import "../lua"
-import "unsafe"
+import (
+	"github.com/DGHeroin/golua/lua"
+	"unsafe"
+)
 import "fmt"
 
 type Userdata struct {
