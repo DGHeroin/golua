@@ -5,6 +5,7 @@ branches:
 os:
   - osx
   - linux
+osx_image: xcode11.3
 before_install:
 #  - sudo add-apt-repository ppa:vbernat/haproxy-1.6 -y
 #  - sudo apt-get -qq update
