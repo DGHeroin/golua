@@ -344,7 +344,7 @@ func TestStackTrace(t *testing.T) {
     testFile := "./example/calls.lua"
     _, err := os.Stat(testFile)
     if os.IsNotExist(err) {
-        testFile = "/home/travis/gopath/src/github.com/DGHeroin/golua/lua/example/calls.lua"
+        testFile = "/home/travis/gopath/src/github.com/DGHeroin/golua/example/calls.lua"
     }
 
     err = L.DoFile(testFile)
