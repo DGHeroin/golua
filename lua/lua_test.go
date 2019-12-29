@@ -341,13 +341,8 @@ func TestStackTrace(t *testing.T) {
         t.Logf("current working dir:%s ", dir)
     }
 
-    testFile := "./example/calls.lua"
-    _, err := os.Stat(testFile)
-    if os.IsNotExist(err) {
-        testFile = "/home/travis/gopath/src/github.com/DGHeroin/golua/example/calls.lua"
-    }
-
-    err = L.DoFile(testFile)
+    testFile := "../example/calls.lua"
+    err := L.DoFile(testFile)
     if err == nil {
         t.Fatal("No error returned from the execution of calls.lua")
         return
