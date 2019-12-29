@@ -337,13 +337,18 @@ func TestStackTrace(t *testing.T) {
     defer L.Close()
     L.OpenLibs()
 
-    err := L.DoFile("./example/calls.lua")
+    if dir, err := os.Getwd(); err == nil {
+        t.Logf("current working dir:%s ", dir)
+    }
+
+    testFile := "./example/calls.lua"
+    _, err := os.Stat(testFile)
+    if os.IsNotExist(err) {
+        testFile = "/home/travis/gopath/src/github.com/DGHeroin/golua/lua/example/calls.lua"
+    }
+
+    err = L.DoFile(testFile)
     if err == nil {
-        if dir, err := os.Getwd(); err  == nil {
-            t.Logf("current working dir:%s ", dir)
-        } else {
-            t.Log(err)
-        }
         t.Fatal("No error returned from the execution of calls.lua")
         return
     }
