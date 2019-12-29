@@ -451,4 +451,15 @@ void clua_setexecutionlimit(lua_State* L, int n)
 	lua_sethook(L, &clua_hook_function, LUA_MASKCOUNT, n);
 }
 
+void clua_lua_insert(lua_State* L, int n) {
+	lua_insert(L, n);
+}
+
+void clua_lua_remove(lua_State* L, int n) {
+	lua_remove(L, n);
+}
+
+void clua_lua_replace(lua_State* L, int n) {
+	lua_replace(L, n);
+}
 

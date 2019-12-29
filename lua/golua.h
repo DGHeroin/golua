@@ -30,6 +30,10 @@ void clua_openstring(lua_State* L);
 void clua_opentable(lua_State* L);
 void clua_openos(lua_State* L);
 void clua_setexecutionlimit(lua_State* L, int n);
+void clua_lua_insert(lua_State* L, int n);
+void clua_lua_remove(lua_State* L, int n);
+void clua_lua_replace(lua_State* L, int n);
+
 
 int clua_isgofunction(lua_State *L, int n);
 int clua_isgostruct(lua_State *L, int n);

@@ -18,9 +18,11 @@ package lua
 
 */
 import "C"
-import "unsafe"
-
-import "fmt"
+import (
+    "bytes"
+    "fmt"
+    "unsafe"
+)
 
 type LuaStackEntry struct {
     Name        string
@@ -178,7 +180,8 @@ func (L *State) AtPanic(panicf LuaGoFunction) (oldpanicf LuaGoFunction) {
 }
 
 func (L *State) pcall(nargs, nresults, errfunc int) int {
-    return int(C.lua_pcallk(L.s, C.int(nargs), C.int(nresults), C.int(errfunc), 0, nil))
+    r := C.lua_pcallk(L.s, C.int(nargs), C.int(nresults), C.int(errfunc), 0, nil)
+    return int(r)
 }
 
 func (L *State) callEx(nargs, nresults int, catch bool) (err error) {
@@ -193,12 +196,14 @@ func (L *State) callEx(nargs, nresults int, catch bool) (err error) {
         }()
     }
 
-    L.GetGlobal(C.GOLUA_DEFAULT_MSGHANDLER)
+   L.GetGlobal(C.GOLUA_DEFAULT_MSGHANDLER)
     // We must record where we put the error handler in the stack otherwise it will be impossible to remove after the pcall when nresults == LUA_MULTRET
     erridx := L.GetTop() - nargs - 1
     L.Insert(erridx)
     r := L.pcall(nargs, nresults, erridx)
     L.Remove(erridx)
+
+    //r := L.pcall(nargs, nresults, 0)
     if r != 0 {
         err = &LuaError{r, L.ToString(-1), L.StackTrace()}
         if !catch {
@@ -278,9 +283,7 @@ func (L *State) GetTop() int { return int(C.lua_gettop(L.s)) }
 
 // lua_insert
 func (L *State) Insert(index int) {
-    //C.lua_insert(L.s, C.int(index))
-    // #define lua_insert(L,idx)	lua_rotate(L, (idx), 1)
-    C.lua_rotate(L.s, C.int(index), 1)
+    C.clua_lua_insert(L.s, C.int(index))
 }
 
 // Returns true if lua_type == LUA_TBOOLEAN
@@ -458,18 +461,12 @@ func (L *State) Register(name string, f LuaGoFunction) {
 
 // lua_remove
 func (L *State) Remove(index int) {
-    //C.lua_remove(L.s, C.int(index))
-// #define lua_remove(L,idx)	(lua_rotate(L, (idx), -1), lua_pop(L, 1))
-    C.lua_rotate(L.s, C.int(index), 1)
-    L.Pop(1)
+    C.clua_lua_remove(L.s, C.int(index))
 }
 
 // lua_replace
 func (L *State) Replace(index int) {
-    //C.lua_replace(L.s, C.int(index))
-    //#define lua_replace(L,idx)	(lua_copy(L, -1, (idx)), lua_pop(L, 1))
-    C.lua_copy(L.s, -1, C.int(index))
-    L.Pop(1)
+    C.clua_lua_replace(L.s, C.int(index))
 }
 
 // lua_resume
@@ -675,6 +672,14 @@ func (L *State) StackTrace() []LuaStackEntry {
     }
 
     return r
+}
+
+func (L *State) StackTraceString() string {
+    buf := bytes.NewBufferString("")
+    for _, s := range L.StackTrace() {
+        buf.WriteString(fmt.Sprintf("%s %s:%d\n", s.Name, s.ShortSource, s.CurrentLine))
+    }
+    return buf.String()
 }
 
 func (L *State) RaiseError(msg string) {

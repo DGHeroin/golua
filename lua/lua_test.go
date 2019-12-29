@@ -124,7 +124,7 @@ func TestCall(t *testing.T) {
 
     L.Register("test", test)
 
-    L.PushString("Dummy")
+   L.PushString("Dummy")
     L.GetGlobal("test")
     L.PushString("Argument1")
     L.PushString("Argument2")
@@ -138,7 +138,6 @@ func TestCall(t *testing.T) {
     dummy := L.ToString(1)
     ret1 := L.ToString(2)
     ret2 := L.ToString(3)
-
     if dummy != "Dummy" {
         t.Fatal("The stack was disturbed")
     }
@@ -337,9 +336,10 @@ func TestStackTrace(t *testing.T) {
     defer L.Close()
     L.OpenLibs()
 
-    err := L.DoFile("../example/calls.lua")
+    err := L.DoFile("./example/calls.lua")
     if err == nil {
         t.Fatal("No error returned from the execution of calls.lua")
+        return
     }
 
     le := err.(*LuaError)
