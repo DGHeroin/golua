@@ -1,7 +1,7 @@
 Go Bindings for the lua C API
 =========================
 
-[![Build Status](https://travis-ci.com/DGHeroin/golua.svg?branch=master)](https://travis-ci.org/GHeroin/golua)
+[![Build Status](https://travis-ci.com/DGHeroin/golua.svg?branch=master)](https://travis-ci.com/DGHeroin/golua)
 
 Simplest way to install:
 
