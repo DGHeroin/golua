@@ -644,6 +644,20 @@ func (L *State) OpenOS() {
     C.clua_openos(L.s)
 }
 
+// register lib form golang side
+func (L *State) OpenGoLibs() {
+    // Sln := C.CString("serialize")
+    // defer C.free(unsafe.Pointer(Sln))
+    // C.clua_register_lib(L.s, C.luaopen_serialize, Sln)
+    L.registerLib("serialize", C.luaopen_serialize)
+}
+
+func (L *State) registerLib(name string, fn unsafe.Pointer) {
+    Sln := C.CString(name)
+    defer C.free(unsafe.Pointer(Sln))
+    C.clua_register_lib(L.s, fn, Sln)
+}
+
 // Sets the maximum number of operations to execute at instrNumber, after this the execution ends
 func (L *State) SetExecutionLimit(instrNumber int) {
     C.clua_setexecutionlimit(L.s, C.int(instrNumber))

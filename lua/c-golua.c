@@ -439,6 +439,12 @@ void clua_openos(lua_State* L)
 	lua_call(L, 1, 0);
 }
 
+void clua_register_lib(lua_State* L, lua_CFunction func, const char* name)
+{
+	luaL_requiref(L, name, func, 1);
+	lua_pop(L, 1);
+}
+
 void clua_hook_function(lua_State *L, lua_Debug *ar)
 {
 	lua_checkstack(L, 2);
