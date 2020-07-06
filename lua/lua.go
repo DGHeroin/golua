@@ -646,9 +646,6 @@ func (L *State) OpenOS() {
 
 // register lib form golang side
 func (L *State) OpenGoLibs() {
-    // Sln := C.CString("serialize")
-    // defer C.free(unsafe.Pointer(Sln))
-    // C.clua_register_lib(L.s, C.luaopen_serialize, Sln)
     L.registerLib("serialize", C.luaopen_serialize)
 }
 
@@ -707,4 +704,8 @@ func (L *State) RaiseError(msg string) {
 
 func (L *State) NewError(msg string) *LuaError {
     return &LuaError{0, msg, L.StackTrace()}
+}
+
+func (L *State) GetState() *C.lua_State {
+    return L.s
 }
