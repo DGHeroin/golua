@@ -9,7 +9,7 @@ package lua
 #cgo CFLAGS: -I ${SRCDIR}/lua
 #cgo windows,!llua LDFLAGS: -L${SRCDIR}/libs/windows -llua -lm -lws2_32
 #cgo linux,!llua LDFLAGS: -L${SRCDIR}/libs/linux -llua -lm
-#cgo darwin,!llua LDFLAGS: -L${SRCDIR}/libs/osx -llua -lm
+#cgo darwin,!llua LDFLAGS: -L${SRCDIR}/libs/macos -llua -lm
 
 #include <lua.h>
 #include <stdlib.h>
